@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.manager.dao.PoetryMapper" >
+  <resultMap id="BaseResultMap" type="com.qf.manager.pojo.po.Poetry" >
+    <id column="poetry_id" property="poetryId" jdbcType="INTEGER" />
+    <result column="poetry_title" property="poetryTitle" jdbcType="VARCHAR" />
+    <result column="poetry_body" property="poetryBody" jdbcType="VARCHAR" />
+    <result column="poetry_author" property="poetryAuthor" jdbcType="VARCHAR" />
+    <result column="poetry_dynasty" property="poetryDynasty" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    poetry_id, poetry_title, poetry_body, poetry_author, poetry_dynasty
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qf.manager.pojo.po.PoetryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from poetry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from poetry
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from poetry
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qf.manager.pojo.po.PoetryExample" >
+    delete from poetry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qf.manager.pojo.po.Poetry" >
+    insert into poetry (poetry_id, poetry_title, poetry_body, 
+      poetry_author, poetry_dynasty)
+    values (#{poetryId,jdbcType=INTEGER}, #{poetryTitle,jdbcType=VARCHAR}, #{poetryBody,jdbcType=VARCHAR}, 
+      #{poetryAuthor,jdbcType=VARCHAR}, #{poetryDynasty,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qf.manager.pojo.po.Poetry" >
+    insert into poetry
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="poetryId != null" >
+        poetry_id,
+      </if>
+      <if test="poetryTitle != null" >
+        poetry_title,
+      </if>
+      <if test="poetryBody != null" >
+        poetry_body,
+      </if>
+      <if test="poetryAuthor != null" >
+        poetry_author,
+      </if>
+      <if test="poetryDynasty != null" >
+        poetry_dynasty,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="poetryId != null" >
+        #{poetryId,jdbcType=INTEGER},
+      </if>
+      <if test="poetryTitle != null" >
+        #{poetryTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryBody != null" >
+        #{poetryBody,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryAuthor != null" >
+        #{poetryAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryDynasty != null" >
+        #{poetryDynasty,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qf.manager.pojo.po.PoetryExample" resultType="java.lang.Integer" >
+    select count(*) from poetry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update poetry
+    <set >
+      <if test="record.poetryId != null" >
+        poetry_id = #{record.poetryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.poetryTitle != null" >
+        poetry_title = #{record.poetryTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poetryBody != null" >
+        poetry_body = #{record.poetryBody,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poetryAuthor != null" >
+        poetry_author = #{record.poetryAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poetryDynasty != null" >
+        poetry_dynasty = #{record.poetryDynasty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update poetry
+    set poetry_id = #{record.poetryId,jdbcType=INTEGER},
+      poetry_title = #{record.poetryTitle,jdbcType=VARCHAR},
+      poetry_body = #{record.poetryBody,jdbcType=VARCHAR},
+      poetry_author = #{record.poetryAuthor,jdbcType=VARCHAR},
+      poetry_dynasty = #{record.poetryDynasty,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qf.manager.pojo.po.Poetry" >
+    update poetry
+    <set >
+      <if test="poetryTitle != null" >
+        poetry_title = #{poetryTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryBody != null" >
+        poetry_body = #{poetryBody,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryAuthor != null" >
+        poetry_author = #{poetryAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="poetryDynasty != null" >
+        poetry_dynasty = #{poetryDynasty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qf.manager.pojo.po.Poetry" >
+    update poetry
+    set poetry_title = #{poetryTitle,jdbcType=VARCHAR},
+      poetry_body = #{poetryBody,jdbcType=VARCHAR},
+      poetry_author = #{poetryAuthor,jdbcType=VARCHAR},
+      poetry_dynasty = #{poetryDynasty,jdbcType=VARCHAR}
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+  </update>
+</mapper>
